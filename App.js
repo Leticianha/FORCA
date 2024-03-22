@@ -79,7 +79,7 @@ const App = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>Você ganhou!</Text>
-            <Button title="Próxima rodada" onPress={nextRound} />
+            <Button title="Próxima rodada" onPress={nextRound} color="#a71627"/>
           </View>
         </View>
       </Modal>
@@ -91,7 +91,7 @@ const App = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>Jogo finalizado, deseja reiniciar?</Text>
-            <Button title="Reiniciar" onPress={handleRestart} />
+            <Button title="Reiniciar" onPress={handleRestart} color="#a71627"/>
           </View>
         </View>
       </Modal>
@@ -104,7 +104,7 @@ const App = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Text style={styles.modalText}>Você perdeu!</Text>
-              <Button title="Reiniciar" onPress={handleRestart} />
+              <Button title="Reiniciar" onPress={handleRestart} color="#a71627"/>
             </View>
           </View>
         </Modal>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 20,
     marginBottom: 20,
-  },
+  }
 });
 
 export default App;

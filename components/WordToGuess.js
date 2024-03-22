@@ -8,16 +8,21 @@ const WordToGuess = ({ word, guessedLetters }) => {
     .join(' ');
 
   return (
-    <View>
-      <Text style={styles.palavra}>Palavra: {maskedWord}</Text>
+    <View style={styles.container}>
+      <Text style={styles.palavra}>ANIMAL:</Text>
+      <Text style={styles.traco}>{maskedWord}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    palavra: {
-        marginBottom: 20
-    }
+  container: {
+    alignItems: 'center'
+  },
+  traco: {
+    marginBottom: 20,
+    fontSize: 20
+  }
 });
 
 export default WordToGuess;
