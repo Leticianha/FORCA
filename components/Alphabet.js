@@ -1,56 +1,73 @@
-import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
 
-const Alphabet = ({ onSelect }) => {
-  const alphabetMatrix = [
-    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
-    ['j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'],
-    ['s', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-  ];
+const Alphabet = ({ onSelect, round }) => {
+  const [inputValue, setInputValue] = useState('');
+  const [chosenLetters, setChosenLetters] = useState(new Set());
+
+  const handleTextChange = (text) => {
+    const cleanedText = text.toLowerCase().replace(/[^a-z]/g, '');
+    setInputValue(cleanedText);
+    if (cleanedText.length > 0) {
+      const lastTypedLetter = cleanedText[cleanedText.length - 1];
+      if (!chosenLetters.has(lastTypedLetter)) {
+        onSelect(lastTypedLetter);
+        setChosenLetters(new Set(chosenLetters).add(lastTypedLetter));
+      }
+      setInputValue('');
+    }
+  };
+
+  useEffect(() => {
+    // Limpar letras escolhidas ao avançar para a próxima rodada
+    setChosenLetters(new Set());
+  }, [round]); // Executar sempre que a rodada mudar
 
   return (
-    <View style={styles.alphabetContainer}>
-      {alphabetMatrix.map((row, rowIndex) => (
-        <View key={rowIndex} style={styles.rowContainer}>
-          {row.map((letter, index) => (
-            <TouchableOpacity 
-              key={index} 
-              style={styles.button} 
-              onPress={() => onSelect(letter)}>
-              <Text style={styles.buttonText}>{letter}</Text>
-            </TouchableOpacity>
-          ))}
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        onChangeText={handleTextChange}
+        value={inputValue}
+        autoCapitalize="none"
+        autoCompleteType="off"
+        keyboardType="ascii-capable"
+      />
+      {chosenLetters.size > 0 && (
+        <View style={styles.chosenLettersContainer}>
+          <Text style={styles.chosenLettersText}>Letras escolhidas:</Text>
+          <Text style={styles.chosenLettersText}>{Array.from(chosenLetters).join(', ')}</Text>
         </View>
-      ))}
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  alphabetContainer: {
-    flexDirection: 'column',
+  container: {
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 40
+    marginTop: 40,
   },
-  rowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 5,
-  },
-  button: {
-    width: 30,
-    height: 30,
-    borderRadius: 10,
-    backgroundColor: '#E1374C',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5
-  },
-  buttonText: {
-    color: 'white',
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
     fontSize: 16,
-    textTransform: 'uppercase'
+    width: 300,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  chosenLettersContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  chosenLettersText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginRight: 5,
   },
 });
 
